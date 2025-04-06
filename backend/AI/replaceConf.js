@@ -11,11 +11,11 @@ const text = "This contract contains proprietary and secret information from App
  * @param {string} text - Input text to censor.
  * @returns {{ cleanText: string, redactedWords: string[] }}
  */
-function replaceConf(confWords, text) {
+function replaceConf(extracted, text) {
     let cleanText = text;
     let redactedWords = [];
 
-    for (let word of confWords) {
+    for (let word of extracted) {
         const pattern = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
         if (pattern.test(cleanText)) {
             redactedWords.push(word);
@@ -26,7 +26,7 @@ function replaceConf(confWords, text) {
     return { cleanText, redactedWords };
 }
 
-const result = replaceConf(confWords, text);
+const result = replaceConf(extrated, text);
 
 console.log("🔒 Censored Text:", result.cleanText);
 console.log("📌 Redacted Words:", result.redactedWords);
