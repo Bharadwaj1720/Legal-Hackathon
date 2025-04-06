@@ -26,7 +26,7 @@ router.post('/', authenticate, upload.single('file'), async (req, res) => {
 
     const keywordsString = await extractKeywordsFromPdf(req.file.path);
     const keywords = keywordsString.split(',').map(k => k.trim());
-    print(keywords)
+    
 
     const doc = await Document.create({
       username: req.user.username,
@@ -55,11 +55,23 @@ router.post('/', authenticate, upload.single('file'), async (req, res) => {
 // GET /documents - get all documents of a user
 router.get('/', authenticate, async (req, res) => {
   try {
-    const docs = await Document.find({ username: req.user.username });
+    const docs = await Document.find(); // Removed user filtering
     res.json({ success: true, documents: docs });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to fetch documents' });
+  }
+});
+
+
+
+router.delete('/:id', authenticate, async (req, res) => {
+  try {
+    await Document.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete document' });
   }
 });
 

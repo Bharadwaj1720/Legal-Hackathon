@@ -1,80 +1,107 @@
-import React, { useState } from "react";
-import "./Database.css"; // Import the new CSS file
+// Database.tsx
+import React, { useEffect, useState } from "react";
+import "./Database.css";
 
-const Database = () => {
-  const [documents, setDocuments] = useState([
-    {
-      name: "10K_AnnualReport.docx",
-      type: "financial statement",
-      icon: "financialStatementsIcon.png",
-    },
-    { name: "contractXfirm.docx", type: "contract", icon: "contractIcon.png" },
-  ]);
+interface DocumentItem {
+  _id: string;
+  username: string;
+  filename: string;
+  form_type: string;
+  keywords: string[];
+}
 
+const Database: React.FC = () => {
+  const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newDocumentName, setNewDocumentName] = useState("");
-  const [newDocumentType, setNewDocumentType] = useState("");
-  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [formType, setFormType] = useState<string>("");
+  const [loading, setLoading] = useState(false);
 
-  const handleAddDocument = () => {
-    if (!newDocumentName || !newDocumentType) {
-      alert("Please fill out all fields.");
+  const token = localStorage.getItem("token");
+
+  const fetchDocuments = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/documents", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      if (data.success) setDocuments(data.documents);
+    } catch (err) {
+      console.error("Failed to fetch documents", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchDocuments();
+  }, []);
+
+  const handleAddDocument = async () => {
+    if (!selectedFile || !formType) {
+      alert("Please select a file and form type");
       return;
     }
+    setLoading(true);
 
-    if (
-      newDocumentType !== "contract" &&
-      newDocumentType !== "financial statement"
-    ) {
-      alert(
-        "Invalid document type. Please enter 'contract' or 'financial statement'."
-      );
-      return;
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("form_type", formType);
+    formData.append("name", "Sample Company");
+    formData.append("sic", "1234");
+    formData.append("fye", "12/31");
+    formData.append("filing_date", "2024-12-31");
+    formData.append("filing_date_period", "2024");
+    formData.append("filing_date_change", "2024-01-15");
+
+    try {
+      const res = await fetch("http://localhost:5000/documents", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchDocuments();
+        setIsModalOpen(false);
+      } else {
+        alert("Upload failed");
+      }
+    } catch (err) {
+      console.error("Upload error", err);
     }
-
-    const icon =
-      newDocumentType === "contract"
-        ? "contractIcon.png"
-        : "financialStatementsIcon.png";
-
-    setDocuments([
-      ...documents,
-      { name: newDocumentName, type: newDocumentType, icon },
-    ]);
-
-    // Reset modal state
-    setNewDocumentName("");
-    setNewDocumentType("");
-    setIsModalOpen(false);
+    setLoading(false);
   };
 
-  const handleDeleteDocument = (index: number) => {
-    setDeleteIndex(index); // Set the index of the document to delete
-  };
-
-  const confirmDelete = () => {
-    if (deleteIndex !== null) {
-      setDocuments(documents.filter((_, i) => i !== deleteIndex)); // Remove the document
-      setDeleteIndex(null); // Reset the delete index
+  const handleDeleteDocument = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:5000/documents/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchDocuments();
+      } else {
+        alert("Failed to delete document");
+      }
+    } catch (err) {
+      console.error("Delete error", err);
     }
-  };
-
-  const cancelDelete = () => {
-    setDeleteIndex(null); // Reset the delete index
   };
 
   return (
     <div>
       <header className="header">
         <div className="logo">
-          <img
-            src="/logo.png" // Path relative to the public folder
-            alt="DocDocket Logo"
-          />
+          <img src="/logo.png" alt="DocDocket Logo" />
         </div>
       </header>
 
-      {/* Add Document Button */}
       <div className="add-button-container">
         <button className="add-button" onClick={() => setIsModalOpen(true)}>
           Add Document
@@ -83,17 +110,21 @@ const Database = () => {
 
       <div className="document-tab">
         <ul className="document-list">
-          {documents.map((doc, index) => (
-            <li key={index} className="document-item">
+          {documents.map((doc) => (
+            <li key={doc._id} className="document-item">
               <img
-                src={`${process.env.PUBLIC_URL}/${doc.icon}`}
-                alt={`${doc.type} Icon`}
+                src={
+                  doc.form_type === "contract"
+                    ? "/contractIcon.png"
+                    : "/financialStatementsIcon.png"
+                }
+                alt={`${doc.form_type} Icon`}
                 className="file-icon"
               />
-              {doc.name} ({doc.type})
+              {doc.filename} ({doc.form_type}) - Uploaded by: {doc.username}
               <button
                 className="delete-button"
-                onClick={() => handleDeleteDocument(index)}
+                onClick={() => handleDeleteDocument(doc._id)}
               >
                 X
               </button>
@@ -107,40 +138,30 @@ const Database = () => {
           <div className="modal">
             <h2>Add New Document</h2>
             <label>
-              Document Name:
+              Select File:
               <input
-                type="text"
-                value={newDocumentName}
-                onChange={(e) => setNewDocumentName(e.target.value)}
+                type="file"
+                onChange={(e) =>
+                  setSelectedFile(e.target.files ? e.target.files[0] : null)
+                }
               />
             </label>
             <label>
-              Document Type:
+              Form Type:
               <select
-                value={newDocumentType}
-                onChange={(e) => setNewDocumentType(e.target.value)}
+                value={formType}
+                onChange={(e) => setFormType(e.target.value)}
               >
-                <option value="">Select Type</option>
+                <option value="">Select</option>
                 <option value="contract">Contract</option>
                 <option value="financial statement">Financial Statement</option>
               </select>
             </label>
             <div className="modal-buttons">
-              <button onClick={handleAddDocument}>Add</button>
+              <button onClick={handleAddDocument} disabled={loading}>
+                {loading ? "Uploading..." : "Add"}
+              </button>
               <button onClick={() => setIsModalOpen(false)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {deleteIndex !== null && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2>Are you sure you want to delete this document?</h2>
-            <div className="modal-buttons">
-              <button onClick={confirmDelete}>Yes</button>
-              <button onClick={cancelDelete}>No</button>
             </div>
           </div>
         </div>
