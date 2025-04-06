@@ -13,6 +13,7 @@ const DocumentSchema = new mongoose.Schema({
   filing_date: String,
   filing_date_period: String,
   filing_date_change: String,
+  keywords: [String],
   created_at: {
     type: Date,
     default: Date.now
