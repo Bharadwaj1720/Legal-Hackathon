@@ -14,13 +14,36 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSignIn = () => {
-    if (username === "1" && password === "1") {
-      navigate("/database");
-    } else {
-      alert("Invalid username or password");
+  const handleSignIn = async () => {
+    if (!username || !password) {
+      alert("Please enter both username and password");
+      return;
+    }
+  
+    try {
+      const response = await fetch("http://localhost:5000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        localStorage.setItem("token", data.token); // Save token
+        alert("Logged in successfully!");
+        navigate("/database");
+      } else {
+        alert("Invalid username or password");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Something went wrong. Please try again.");
     }
   };
+  
 
   return (
     <div className="login-container">
