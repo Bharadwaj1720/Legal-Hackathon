@@ -14,7 +14,7 @@ const DocumentSchema = new mongoose.Schema({
   filing_date_period: String,
   filing_date_change: String,
   keywords: [String],
-  conflicts: [String],
+  confidential: Boolean,
   created_at: {
     type: Date,
     default: Date.now
