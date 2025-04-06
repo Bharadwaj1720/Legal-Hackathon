@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import Database from "./Database";
+import Register from "./Register";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -24,6 +25,11 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <h1>Welcome to DOCDOCKET!</h1>
+      <img
+        src="/coolImage.png" // Path relative to the `public` folder
+        alt="Cool Illustration"
+        className="cool-image"
+      />
       <div className="login-form">
         <input
           type="text"
@@ -43,7 +49,10 @@ const LoginPage = () => {
           Sign In
         </button>
         <p>
-          Don't have an account? <a href="#">Sign Up</a>
+          Don't have an account?{" "}
+          <a href="#" onClick={() => navigate("/register")}>
+            Sign Up
+          </a>
         </p>
       </div>
     </div>
@@ -55,6 +64,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/database" element={<Database />} />
       </Routes>
     </Router>

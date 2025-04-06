@@ -170,12 +170,15 @@ body {
 }
 
 .login-button {
-  padding: 10px 20px;
+  padding: 10px; /* Match the padding of the input fields */
   font-size: 16px;
   color: #fff;
   background-color: #2b6cb0;
   border: none;
   border-radius: 4px;
+  width: 100%; /* Match the width of the input fields */
+  max-width: 300px; /* Match the max-width of the input fields */
+  margin: 0 auto;
   cursor: pointer;
 }
 
@@ -195,4 +198,11 @@ body {
 
 .login-container a:hover {
   text-decoration: underline;
+}
+
+.cool-image {
+  width: 100%; /* Make the image responsive */
+  max-width: 300px; /* Limit the maximum width */
+  margin: 20px auto; /* Add spacing and center the image */
+  display: block;
 }
