@@ -25,4 +25,4 @@ async function checkKeywords(inputKeywords, mongoUri, dbName, collectionName) {
   }
 }
 
-module.exports = checkKeywords.js;
+module.exports = checkKeywords;
