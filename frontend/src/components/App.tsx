@@ -1,14 +1,112 @@
 import React from "react";
+import "./App.css";
 
-const App: React.FC = () => {
+const App = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold text-blue-600">
-        Welcome to the Frontend!
-      </h1>
-      <p className="mt-4 text-lg text-gray-700">
-        This is a generic website using React, TypeScript, and Tailwind CSS.
-      </p>
+    <div>
+      <header className="header">
+        <div className="logo">
+          <img
+            src="/logo.png" // Path relative to the `public` folder
+            alt="DocDocket Logo"
+          />
+        </div>
+      </header>
+      <div className="document-tab">
+        <ul className="document-list">
+          {/* Financial Statements */}
+          <li className="document-item">
+            <img
+              src="/financialStatementsIcon.png"
+              alt="Financial Statements Icon"
+              className="file-icon"
+            />
+            10K_AnnualReport.docx
+          </li>
+          <li className="document-item">
+            <img
+              src="/financialStatementsIcon.png"
+              alt="Financial Statements Icon"
+              className="file-icon"
+            />
+            Q1_QuarterlyReport.docx
+          </li>
+          <li className="document-item">
+            <img
+              src="/financialStatementsIcon.png"
+              alt="Financial Statements Icon"
+              className="file-icon"
+            />
+            Q2_QuarterlyReport.docx
+          </li>
+
+          {/* Contracts */}
+          <li className="document-item">
+            <img
+              src="/contractIcon.png"
+              alt="Contract Icon"
+              className="file-icon"
+            />
+            contractXfirm.docx
+          </li>
+          <li className="document-item">
+            <img
+              src="/contractIcon.png"
+              alt="Contract Icon"
+              className="file-icon"
+            />
+            briefAfirm.docx
+          </li>
+          <li className="document-item">
+            <img
+              src="/contractIcon.png"
+              alt="Contract Icon"
+              className="file-icon"
+            />
+            affidavitMsubject.docx
+          </li>
+          <li className="document-item">
+            <img
+              src="/contractIcon.png"
+              alt="Contract Icon"
+              className="file-icon"
+            />
+            agreementYclient.docx
+          </li>
+          <li className="document-item">
+            <img
+              src="/contractIcon.png"
+              alt="Contract Icon"
+              className="file-icon"
+            />
+            settlementZcase.docx
+          </li>
+          <li className="document-item">
+            <img
+              src="/contractIcon.png"
+              alt="Contract Icon"
+              className="file-icon"
+            />
+            templateNmotion.docx
+          </li>
+          <li className="document-item">
+            <img
+              src="/contractIcon.png"
+              alt="Contract Icon"
+              className="file-icon"
+            />
+            depositionWwitness.docx
+          </li>
+          <li className="document-item">
+            <img
+              src="/contractIcon.png"
+              alt="Contract Icon"
+              className="file-icon"
+            />
+            complaintVissue.docx
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };
