@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const multer = require('multer');
+const path = require('path');
 const fs = require('fs');
-const crypto = require('crypto');
 const Document = require('./models/Document');
 const blockchain = require('./blockchain');
 
@@ -14,62 +14,24 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// File upload config
 const upload = multer({ dest: 'uploads/' });
 
+// MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.error(err));
 
-// Health check
-app.get('/', (req, res) => res.send('Backend with local blockchain is running'));
+// Routes
+const authRoutes = require('./routes/auth');
+const documentRoutes = require('./routes/document');
 
-// Upload route
-app.post('/upload', upload.single('file'), async (req, res) => {
-  try {
-    console.log('🚀 File upload initiated...');
-    console.log('Uploaded file:', req.file);
+app.use('/auth', authRoutes);
+app.use('/documents', documentRoutes);
 
-    // Generate SHA256 hash
-    const fileBuffer = fs.readFileSync(req.file.path);
-    const hash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
-    console.log('✅ File hash:', hash);
+app.get('/', (req, res) => res.send('Backend with local blockchain & auth is running'));
 
-    // Add to blockchain
-    const newBlock = blockchain.addBlock({
-      username: req.body.username || "Anonymous",
-      filename: req.file.originalname,
-      hash
-    });
-
-    console.log('✅ Block added:', newBlock);
-
-    // Save to MongoDB
-    const doc = await Document.create({
-      username: req.body.username || "Anonymous",
-      filename: req.file.originalname,
-      hash,
-      blockchain_tx: newBlock.hash,
-      signed_by: "local_blockchain",
-      ai_summary: 'AI analysis pending...'
-    });
-
-    res.json({
-      success: true,
-      message: 'Document stored in local blockchain & database.',
-      block: newBlock,
-      doc
-    });
-  } catch (err) {
-    console.error('❌ Upload failed:', err);
-    res.status(500).json({ error: err.message || 'Upload failed' });
-  }
-});
-
-// Route to view the entire blockchain
-app.get('/chain', (req, res) => {
-  res.json({ chain: blockchain.getChain() });
-});
-
-app.listen(process.env.PORT || 5000, () => {
-  console.log(`🚀 Server running on http://localhost:${process.env.PORT || 5000}`);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
