@@ -1,3 +1,4 @@
+// checkConflicts.js
 const { MongoClient } = require("mongodb");
 
 async function checkConflicts(inputKeywords, mongoUri, dbName, collectionName) {
@@ -8,27 +9,14 @@ async function checkConflicts(inputKeywords, mongoUri, dbName, collectionName) {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
-    // Query to find documents that have at least one overlapping keyword
+    // Find documents where at least one keyword matches
     const query = {
-      conflicts: { $in: inputKeywords }
+      keywords: { $in: inputKeywords }
     };
 
     const matchedDocuments = await collection.find(query).toArray();
 
-    // Extract and deduplicate matching keywords
-    const matchedKeywords = new Set();
-
-    matchedDocuments.forEach(doc => {
-      if (Array.isArray(doc.conflicts)) {
-        doc.conflicts.forEach(keyword => {
-          if (inputKeywords.includes(keyword)) {
-            matchedKeywords.add(keyword);
-          }
-        });
-      }
-    });
-
-    return Array.from(matchedKeywords);
+    return matchedDocuments;
   } catch (error) {
     console.error("Error querying MongoDB:", error);
     return [];
