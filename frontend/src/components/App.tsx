@@ -55,7 +55,7 @@ const LoginPage = () => {
       </p>
       <div className="image-text-container">
         <img
-          src="/coolImage.png" // Path relative to the `public` folder
+          src="/coolImage.png"
           alt="Cool Illustration"
           className="cool-image"
         />
@@ -92,7 +92,7 @@ const LoginPage = () => {
         <button onClick={handleSignIn} className="login-button">
           Sign In
         </button>
-        <p>
+        <p className="footer-text">
           Don't have an account?{" "}
           <a href="#" onClick={() => navigate("/register")}>
             Sign Up
