@@ -9,6 +9,22 @@
   margin-left: auto;
   margin-right: auto;
 }
+.confidential-flag {
+  font-weight: bold;
+  padding: 4px 8px;
+  margin-left: 10px;
+  border-radius: 8px;
+}
+
+.confidential-flag.red {
+  color: white;
+  background-color: crimson;
+}
+
+.confidential-flag.green {
+  color: white;
+  background-color: green;
+}
 
 .document-list {
   list-style: none;

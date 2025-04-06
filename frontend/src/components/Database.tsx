@@ -8,6 +8,7 @@ interface DocumentItem {
   filename: string;
   form_type: string;
   keywords: string[];
+  confidential?: boolean;
 }
 
 const Database: React.FC = () => {
@@ -16,6 +17,9 @@ const Database: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [formType, setFormType] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [conflicts, setConflicts] = useState<DocumentItem[] | null>(null);
+  const [forceUpload, setForceUpload] = useState(false);
+  const [replaceTargetId, setReplaceTargetId] = useState<string | null>(null);
 
   const token = localStorage.getItem("token");
 
@@ -37,7 +41,7 @@ const Database: React.FC = () => {
     fetchDocuments();
   }, []);
 
-  const handleAddDocument = async () => {
+  const uploadDocument = async (force: boolean = false, replacingId?: string) => {
     if (!selectedFile || !formType) {
       alert("Please select a file and form type");
       return;
@@ -53,6 +57,7 @@ const Database: React.FC = () => {
     formData.append("filing_date", "2024-12-31");
     formData.append("filing_date_period", "2024");
     formData.append("filing_date_change", "2024-01-15");
+    if (force) formData.append("force", "true");
 
     try {
       const res = await fetch("http://localhost:5000/documents", {
@@ -63,16 +68,29 @@ const Database: React.FC = () => {
         body: formData,
       });
       const data = await res.json();
-      if (data.success) {
+
+      if (res.status === 409) {
+        setConflicts(data.conflicts);
+        setForceUpload(true);
+      } else if (data.success) {
+        if (replacingId) {
+          await handleDeleteDocument(replacingId);
+        }
         fetchDocuments();
         setIsModalOpen(false);
+        setConflicts(null);
+        setForceUpload(false);
       } else {
-        alert("Upload failed");
+        alert("Upload failed: " + data.error);
       }
     } catch (err) {
       console.error("Upload error", err);
     }
     setLoading(false);
+  };
+
+  const handleAddDocument = () => {
+    uploadDocument(forceUpload, replaceTargetId || undefined);
   };
 
   const handleDeleteDocument = async (id: string) => {
@@ -92,6 +110,11 @@ const Database: React.FC = () => {
     } catch (err) {
       console.error("Delete error", err);
     }
+  };
+
+  const handleRedactReplace = (id: string) => {
+    setReplaceTargetId(id);
+    setIsModalOpen(true);
   };
 
   return (
@@ -122,12 +145,25 @@ const Database: React.FC = () => {
                 className="file-icon"
               />
               {doc.filename} ({doc.form_type}) - Uploaded by: {doc.username}
+              <span
+  className={`confidential-flag ${doc.confidential ? "red" : "green"}`}
+>
+  {doc.confidential ? "⚠ Confidential" : "✓ Safe"}
+</span>
               <button
                 className="delete-button"
                 onClick={() => handleDeleteDocument(doc._id)}
               >
                 X
               </button>
+              {doc.confidential && (
+                <button
+                  className="replace-button"
+                  onClick={() => handleRedactReplace(doc._id)}
+                >
+                  Replace with Redacted
+                </button>
+              )}
             </li>
           ))}
         </ul>
@@ -136,7 +172,7 @@ const Database: React.FC = () => {
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal">
-            <h2>Add New Document</h2>
+            <h2>{replaceTargetId ? "Upload Redacted Document" : "Add New Document"}</h2>
             <label>
               Select File:
               <input
@@ -159,10 +195,24 @@ const Database: React.FC = () => {
             </label>
             <div className="modal-buttons">
               <button onClick={handleAddDocument} disabled={loading}>
-                {loading ? "Uploading..." : "Add"}
+                {loading ? "Uploading..." : forceUpload ? "Force Upload" : "Upload"}
               </button>
-              <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+              <button onClick={() => {
+                setIsModalOpen(false);
+                setReplaceTargetId(null);
+              }}>Cancel</button>
             </div>
+
+            {conflicts && conflicts.length > 0 && (
+              <div className="conflict-warning">
+                <p><strong>Warning:</strong> Matching documents found. Are you sure you want to continue?</p>
+                <ul>
+                  {conflicts.map((doc) => (
+                    <li key={doc._id}>{doc.filename} (by {doc.username})</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       )}
