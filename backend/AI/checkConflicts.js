@@ -11,7 +11,7 @@ async function checkConflicts(inputKeywords, mongoUri, dbName, collectionName) {
 
     // Find documents where at least one keyword matches
     const query = {
-      keywords: { $in: inputKeywords }
+      conflicts: { $in: inputKeywords }
     };
 
     const matchedDocuments = await collection.find(query).toArray();
