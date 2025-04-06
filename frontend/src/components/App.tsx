@@ -1,113 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import "./App.css";
+import Database from "./Database";
+
+const LoginPage = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSignIn = () => {
+    if (username === "1" && password === "1") {
+      navigate("/database");
+    } else {
+      alert("Invalid username or password");
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <h1>Welcome to DOCDOCKET!</h1>
+      <div className="login-form">
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="login-input"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="login-input"
+        />
+        <button onClick={handleSignIn} className="login-button">
+          Sign In
+        </button>
+        <p>
+          Don't have an account? <a href="#">Sign Up</a>
+        </p>
+      </div>
+    </div>
+  );
+};
 
 const App = () => {
   return (
-    <div>
-      <header className="header">
-        <div className="logo">
-          <img
-            src="/logo.png" // Path relative to the `public` folder
-            alt="DocDocket Logo"
-          />
-        </div>
-      </header>
-      <div className="document-tab">
-        <ul className="document-list">
-          {/* Financial Statements */}
-          <li className="document-item">
-            <img
-              src="/financialStatementsIcon.png"
-              alt="Financial Statements Icon"
-              className="file-icon"
-            />
-            10K_AnnualReport.docx
-          </li>
-          <li className="document-item">
-            <img
-              src="/financialStatementsIcon.png"
-              alt="Financial Statements Icon"
-              className="file-icon"
-            />
-            Q1_QuarterlyReport.docx
-          </li>
-          <li className="document-item">
-            <img
-              src="/financialStatementsIcon.png"
-              alt="Financial Statements Icon"
-              className="file-icon"
-            />
-            Q2_QuarterlyReport.docx
-          </li>
-
-          {/* Contracts */}
-          <li className="document-item">
-            <img
-              src="/contractIcon.png"
-              alt="Contract Icon"
-              className="file-icon"
-            />
-            contractXfirm.docx
-          </li>
-          <li className="document-item">
-            <img
-              src="/contractIcon.png"
-              alt="Contract Icon"
-              className="file-icon"
-            />
-            briefAfirm.docx
-          </li>
-          <li className="document-item">
-            <img
-              src="/contractIcon.png"
-              alt="Contract Icon"
-              className="file-icon"
-            />
-            affidavitMsubject.docx
-          </li>
-          <li className="document-item">
-            <img
-              src="/contractIcon.png"
-              alt="Contract Icon"
-              className="file-icon"
-            />
-            agreementYclient.docx
-          </li>
-          <li className="document-item">
-            <img
-              src="/contractIcon.png"
-              alt="Contract Icon"
-              className="file-icon"
-            />
-            settlementZcase.docx
-          </li>
-          <li className="document-item">
-            <img
-              src="/contractIcon.png"
-              alt="Contract Icon"
-              className="file-icon"
-            />
-            templateNmotion.docx
-          </li>
-          <li className="document-item">
-            <img
-              src="/contractIcon.png"
-              alt="Contract Icon"
-              className="file-icon"
-            />
-            depositionWwitness.docx
-          </li>
-          <li className="document-item">
-            <img
-              src="/contractIcon.png"
-              alt="Contract Icon"
-              className="file-icon"
-            />
-            complaintVissue.docx
-          </li>
-        </ul>
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/database" element={<Database />} />
+      </Routes>
+    </Router>
   );
 };
 
