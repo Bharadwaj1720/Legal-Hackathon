@@ -7,43 +7,40 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = async () => {
-    if (!username || !password) {
-      alert("Username and password are required.");
-      return;
-    }
-
-    try {
-      const response = await fetch("http://localhost:5000/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        alert("Registered successfully!");
-        navigate("/"); // redirect to login
-      } else {
-        alert(`Error: ${data.error}`);
-      }
-    } catch (err) {
-      console.error("Registration failed:", err);
-      alert("Something went wrong.");
-    }
+  const handleRegister = () => {
+    alert("Registration functionality is not implemented yet.");
   };
 
   return (
     <div className="login-container">
       <h1>Welcome to DOCDOCKET!</h1>
-      <img
-        src="/coolImage.png"
-        alt="Cool Illustration"
-        className="cool-image"
-      />
+      <p className="intro-text">
+        DocDocket is here to serve your documents and dockets. It is a
+        revolution in the archiving of legal documents, utilizing blockchain to
+        secure documents, while providing AI-driven assistance and granular
+        access control to maintain confidentiality.
+      </p>
+      <div className="image-text-container">
+        <img
+          src="/coolImage.png" // Path relative to the `public` folder
+          alt="Cool Illustration"
+          className="cool-image"
+        />
+        <div className="description-text">
+          <p>
+            <strong>Functionalities:</strong>
+            <ul>
+              <li>Easy-to-use UI with no need for extra training.</li>
+              <li>Offers smart suggestions on client conflict history.</li>
+              <li>
+                Automate identification of potential COIs (conflicts of
+                interest).
+              </li>
+              <li>Smart keyword and metadata search for fast retrieval.</li>
+            </ul>
+          </p>
+        </div>
+      </div>
       <div className="login-form">
         <input
           type="text"

@@ -16,10 +16,10 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #ffffff;
-  padding: 20px;
+  padding: 10px 20px; /* Reduce padding to minimize space */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%; /* Full width */
-  position: fixed; /* Make the header static (fixed at the top) */
+  position: fixed; /* Keep the header fixed */
   top: 0;
   left: 0;
   z-index: 1000;
@@ -200,9 +200,33 @@ body {
   text-decoration: underline;
 }
 
+.image-text-container {
+  display: flex;
+  align-items: center; /* Align image and text vertically */
+  justify-content: center;
+  gap: 30px; /* Adjust spacing between the image and text */
+  margin: 20px auto; /* Reduce vertical margin */
+  max-width: 900px;
+}
+
 .cool-image {
-  width: 100%; /* Make the image responsive */
-  max-width: 300px; /* Limit the maximum width */
-  margin: 20px auto; /* Add spacing and center the image */
-  display: block;
+  width: auto; /* Maintain aspect ratio */
+  height: 150px; /* Increase height to match the text */
+}
+
+.description-text {
+  font-size: 16px; /* Keep font size consistent */
+  color: #333;
+  text-align: left;
+  line-height: 1.6; /* Maintain line height */
+  max-width: 600px; /* Limit the width of the text */
+}
+
+.intro-text {
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 800px;
+  line-height: 1.6;
 }
