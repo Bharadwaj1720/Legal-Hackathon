@@ -8,6 +8,7 @@ import {
 import "./App.css";
 import Database from "./Database";
 import Register from "./Register";
+import Explanation from "./Explanation";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -46,13 +47,30 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      <h1>Welcome to DOCDOCKET!</h1>
+      <h1 className="animated-text">
+        {"Welcome to DocDocket!".split("").map((char, index) => (
+          <span key={index} style={{ animationDelay: `${index * 0.1}s` }}>
+            {char === " " ? "\u00A0" : char}
+          </span>
+        ))}
+      </h1>
       <p className="intro-text">
         DocDocket is here to serve your documents and dockets. It is a
         revolution in the archiving of legal documents, utilizing blockchain to
         secure documents, while providing AI-driven assistance and granular
         access control to maintain confidentiality.
       </p>
+      <button
+        className="how-to-button"
+        onClick={() => navigate("/explanation")}
+      >
+        <img
+          src="/gear.gif" // Path to your gear.gif file
+          alt="Rotating Gear"
+          className="gear-gif"
+        />
+        How to use DocDocket?
+      </button>
       <div className="image-text-container">
         <img
           src="/coolImage.png"
@@ -92,7 +110,7 @@ const LoginPage = () => {
         <button onClick={handleSignIn} className="login-button">
           Sign In
         </button>
-        <p className="footer-text">
+        <p>
           Don't have an account?{" "}
           <a href="#" onClick={() => navigate("/register")}>
             Sign Up
@@ -110,6 +128,7 @@ const App = () => {
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/database" element={<Database />} />
+        <Route path="/explanation" element={<Explanation />} />
       </Routes>
     </Router>
   );

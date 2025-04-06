@@ -17,9 +17,9 @@ const Register = () => {
       const response = await fetch("http://localhost:5000/auth/signup", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
@@ -38,7 +38,13 @@ const Register = () => {
 
   return (
     <div className="login-container">
-      <h1>Welcome to DOCDOCKET!</h1>
+      <h1 className="animated-text">
+        {"Create Account".split("").map((char, index) => (
+          <span key={index} style={{ animationDelay: `${index * 0.1}s` }}>
+            {char === " " ? "\u00A0" : char}
+          </span>
+        ))}
+      </h1>
       <img
         src="/coolImage.png"
         alt="Cool Illustration"

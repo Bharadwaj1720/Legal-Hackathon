@@ -262,3 +262,131 @@ body {
   font-size: 14px;
   color: #718096;
 }
+
+.how-to-button {
+  position: relative;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2b6cb0; /* Blue text */
+  background: #ffffff; /* White background */
+  border: 2px solid #2b6cb0; /* Blue outline */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(43, 108, 176, 0.1); /* Subtle shadow */
+  user-select: none; /* Prevent text selection */
+}
+
+.how-to-button:hover {
+  background: #ffffff; /* Keep the background white on hover */
+  color: #2b6cb0; /* Keep the text blue on hover */
+  border-color: #2b6cb0;
+  box-shadow: 0 4px 10px rgba(43, 108, 176, 0.3); /* Stronger shadow */
+}
+
+.how-to-button:focus {
+  outline: none; /* Remove focus outline */
+}
+
+.gear-container {
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
+.gear {
+  width: 30px;
+  height: 30px;
+  animation: rotate-gear 2s linear infinite;
+}
+
+@keyframes rotate-gear {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.gear-container {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.gears {
+  width: 50px;
+  height: 50px;
+}
+
+.gear-large {
+  animation: rotate-large 4s linear infinite;
+}
+
+.gear-small {
+  animation: rotate-small 2s linear infinite reverse;
+}
+
+.gear-tiny {
+  animation: rotate-tiny 1.5s linear infinite;
+}
+
+@keyframes rotate-large {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-small {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-tiny {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.gear-gif {
+  width: 40px; /* Increase size of the gear GIF */
+  height: 40px;
+}
+
+.animated-text span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
