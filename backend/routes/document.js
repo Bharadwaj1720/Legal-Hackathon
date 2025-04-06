@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const Document = require('../models/Document');
 const blockchain = require('../blockchain');
 const authenticate = require('../middleware/authenticate');
+const extractKeywordsFromPdf = require('../AI/extractKeywords');
 
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
@@ -23,6 +24,10 @@ router.post('/', authenticate, upload.single('file'), async (req, res) => {
       hash
     });
 
+    const keywordsString = await extractKeywordsFromPdf(req.file.path);
+    const keywords = keywordsString.split(',').map(k => k.trim());
+    print(keywords)
+
     const doc = await Document.create({
       username: req.user.username,
       filename: req.file.originalname,
@@ -36,7 +41,8 @@ router.post('/', authenticate, upload.single('file'), async (req, res) => {
       fye,
       filing_date,
       filing_date_period,
-      filing_date_change
+      filing_date_change,
+      keywords
     });
 
     res.json({ success: true, block: newBlock, doc });

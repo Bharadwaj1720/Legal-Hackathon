@@ -19,7 +19,7 @@ body {
   padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%; /* Full width */
-  position: fixed; /* Sticks to the top */
+  position: fixed; /* Make the header static (fixed at the top) */
   top: 0;
   left: 0;
   z-index: 1000;
@@ -104,12 +104,13 @@ body {
 }
 
 .document-tab {
-  margin-top: 100px; /* Space below the header */
+  margin-top: 120px; /* Add enough space below the header */
   padding: 20px;
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  max-width: 600px;
+  max-width: 800px; /* Extend the table width */
+  width: 90%; /* Make it responsive */
   margin-left: auto;
   margin-right: auto;
 }
@@ -123,7 +124,7 @@ body {
 .document-item {
   display: flex;
   align-items: center;
-  padding: 10px 15px;
+  padding: 15px 20px; /* Increase padding for better spacing */
   border-bottom: 1px solid #e2e8f0;
   font-size: 16px;
   color: #1a202c;
@@ -134,7 +135,74 @@ body {
 }
 
 .file-icon {
-  width: 80px; /* Increased width for larger icons */
-  height: 80px; /* Increased height for larger icons */
-  margin-right: 20px; /* Add more spacing between the icon and text */
+  width: 80px; /* Keep the icons large */
+  height: 80px;
+  margin-right: 20px; /* Add spacing between the icon and text */
+}
+
+.login-container {
+  text-align: center;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.login-button {
+  padding: 10px; /* Match the padding of the input fields */
+  font-size: 16px;
+  color: #fff;
+  background-color: #2b6cb0;
+  border: none;
+  border-radius: 4px;
+  width: 100%; /* Match the width of the input fields */
+  max-width: 300px; /* Match the max-width of the input fields */
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #2c5282;
+}
+
+.login-container p {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.login-container a {
+  color: #2b6cb0;
+  text-decoration: none;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
+}
+
+.cool-image {
+  width: 100%; /* Make the image responsive */
+  max-width: 300px; /* Limit the maximum width */
+  margin: 20px auto; /* Add spacing and center the image */
+  display: block;
 }
