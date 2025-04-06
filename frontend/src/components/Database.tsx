@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./Database.css"; // Import the new CSS file
 
 const Database = () => {
   return (
@@ -17,7 +17,7 @@ const Database = () => {
           {/* Financial Statements */}
           <li className="document-item">
             <img
-              src="/financialStatementsIcon.png"
+              src={`${process.env.PUBLIC_URL}/financialStatementsIcon.png`}
               alt="Financial Statements Icon"
               className="file-icon"
             />
@@ -25,7 +25,7 @@ const Database = () => {
           </li>
           <li className="document-item">
             <img
-              src="/financialStatementsIcon.png"
+              src={`${process.env.PUBLIC_URL}/financialStatementsIcon.png`}
               alt="Financial Statements Icon"
               className="file-icon"
             />
@@ -33,7 +33,7 @@ const Database = () => {
           </li>
           <li className="document-item">
             <img
-              src="/financialStatementsIcon.png"
+              src={`${process.env.PUBLIC_URL}/financialStatementsIcon.png`}
               alt="Financial Statements Icon"
               className="file-icon"
             />
@@ -43,7 +43,7 @@ const Database = () => {
           {/* Contracts */}
           <li className="document-item">
             <img
-              src="/contractIcon.png"
+              src={`${process.env.PUBLIC_URL}/contractIcon.png`}
               alt="Contract Icon"
               className="file-icon"
             />
@@ -51,7 +51,7 @@ const Database = () => {
           </li>
           <li className="document-item">
             <img
-              src="/contractIcon.png"
+              src={`${process.env.PUBLIC_URL}/contractIcon.png`}
               alt="Contract Icon"
               className="file-icon"
             />
@@ -59,7 +59,7 @@ const Database = () => {
           </li>
           <li className="document-item">
             <img
-              src="/contractIcon.png"
+              src={`${process.env.PUBLIC_URL}/contractIcon.png`}
               alt="Contract Icon"
               className="file-icon"
             />
@@ -67,7 +67,7 @@ const Database = () => {
           </li>
           <li className="document-item">
             <img
-              src="/contractIcon.png"
+              src={`${process.env.PUBLIC_URL}/contractIcon.png`}
               alt="Contract Icon"
               className="file-icon"
             />
@@ -75,7 +75,7 @@ const Database = () => {
           </li>
           <li className="document-item">
             <img
-              src="/contractIcon.png"
+              src={`${process.env.PUBLIC_URL}/contractIcon.png`}
               alt="Contract Icon"
               className="file-icon"
             />
@@ -83,7 +83,7 @@ const Database = () => {
           </li>
           <li className="document-item">
             <img
-              src="/contractIcon.png"
+              src={`${process.env.PUBLIC_URL}/contractIcon.png`}
               alt="Contract Icon"
               className="file-icon"
             />
@@ -91,7 +91,7 @@ const Database = () => {
           </li>
           <li className="document-item">
             <img
-              src="/contractIcon.png"
+              src={`${process.env.PUBLIC_URL}/contractIcon.png`}
               alt="Contract Icon"
               className="file-icon"
             />
@@ -99,7 +99,7 @@ const Database = () => {
           </li>
           <li className="document-item">
             <img
-              src="/contractIcon.png"
+              src={`${process.env.PUBLIC_URL}/contractIcon.png`}
               alt="Contract Icon"
               className="file-icon"
             />
